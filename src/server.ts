@@ -34,6 +34,20 @@ app.get('/health',async(req:Request,res:Response)=>{
     })
 });
 
+app.get('/dbhealth',async(req:Request,res:Response)=>{
+    try {
+        await connectDb();
+        return res.status(200).json({
+            message:"database is connected successfully"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"database is not connected",
+            error:error
+        })
+    }
+}
+);
 const workerleadSchema = new mongoose.Schema({}, {
   strict: false,
   collection: "workerleads"

@@ -1,8 +1,7 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+    image: indrama/docker_with_nginx-app:${IMAGE_TAG}
     container_name: node_with_ngnix
     env_file:
       - .env
@@ -21,7 +20,7 @@ services:
      networks:
       - my-app-network
      depends_on:
-      - app   
+      - app
   db:
     image: mongo:7
     container_name: db
@@ -37,10 +36,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
-    
+
 
 volumes:
   mongodb-data:
 networks:
   my-app-network:
-  
