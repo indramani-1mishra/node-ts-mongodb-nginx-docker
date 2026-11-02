@@ -39,7 +39,12 @@ jobs:
            envs: IMAGE_TAG
            script: |
                                   
-                                  cd node_with_ngnix
-                                  docker compose down
-                                  docker compose pull
-                                  docker compose up -d
+                                    cd ~/node_with_ngnix
+
+                                    echo "Deploying image: $IMAGE_TAG"
+
+                                    docker compose pull app
+
+                                    docker compose up -d --no-deps app
+
+                                    docker compose ps
