@@ -28,25 +28,30 @@ jobs:
         - name: logout from DockerHub
           run: docker logout
                           
-        - name: connect to ec2 instance
+        - name: Connect to EC2 instance
           uses: appleboy/ssh-action@v0.1.5
           env:
             IMAGE_TAG: ${{ github.sha }}
           with:
-           host: ${{ secrets.EC2_HOST }}
-           username: ${{ secrets.EC2_USERNAME }}
-           key: ${{ secrets.EC2_SSH_KEY }}
-           envs: IMAGE_TAG
-           script: |
-                                    export IMAGE_TAG="$IMAGE_TAG"
+            host: ${{ secrets.EC2_HOST }}
+            username: ${{ secrets.EC2_USERNAME }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            envs: IMAGE_TAG
+            script: |
+              set -e
 
-                                    echo "Deploying image: $IMAGE_TAG"
-                                    cd ~/node_with_ngnix
+              cd ~/node_with_ngnix
 
-                                    echo "Deploying image: $IMAGE_TAG"
+              echo "Deploying image: $IMAGE_TAG"
 
-                                    docker compose pull app
+              if grep -q '^IMAGE_TAG=' .env; then
+                sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=$IMAGE_TAG/" .env
+              else
+                echo "IMAGE_TAG=$IMAGE_TAG" >> .env
+              fi
 
-                                    docker compose up -d --no-deps app
+              docker compose pull app
 
-                                    docker compose ps
+              docker compose up -d --no-deps app
+
+              docker compose ps
