@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 const  app = express();
 const port = process.env.PORT || 3002;
 
+app.use(express.json());
 
 app.get('/',(req:Request,res:Response)=>{
      res.send(`<!DOCTYPE html>
@@ -19,6 +20,7 @@ app.get('/',(req:Request,res:Response)=>{
       <div style="text-align: center; background-color: black; color: white;">
       <h1>Hello World</h1>
       <p>Welcome to my server!</p>
+    <p>second version of  my code !</p>
     </div>
 
 </body>
@@ -26,6 +28,11 @@ app.get('/',(req:Request,res:Response)=>{
 `)
 })
 
+app.get('/health',async(req:Request,res:Response)=>{
+    return res.status(200).json({
+        message:"server is running successfully"
+    })
+});
 
 const workerleadSchema = new mongoose.Schema({}, {
   strict: false,
