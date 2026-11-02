@@ -38,7 +38,9 @@ jobs:
            key: ${{ secrets.EC2_SSH_KEY }}
            envs: IMAGE_TAG
            script: |
-                                  
+                                    export IMAGE_TAG="$IMAGE_TAG"
+
+                                    echo "Deploying image: $IMAGE_TAG"
                                     cd ~/node_with_ngnix
 
                                     echo "Deploying image: $IMAGE_TAG"
