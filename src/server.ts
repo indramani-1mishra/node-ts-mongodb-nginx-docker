@@ -30,7 +30,8 @@ app.get('/',(req:Request,res:Response)=>{
 
 app.get('/health',async(req:Request,res:Response)=>{
     return res.status(200).json({
-        message:"server is running successfully"
+        message:"server is running successfully",
+        
     })
 });
 
@@ -58,6 +59,7 @@ const WorkerLead = mongoose.model("WorkerLead", workerleadSchema);
 app.get('/lead',async(req:Request,res:Response)=>{
     const response = await WorkerLead.find();
     return res.status(200).json({
+
         message:"worker lead finding successfully",
         data:response
     })
