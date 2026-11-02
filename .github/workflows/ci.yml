@@ -24,16 +24,19 @@ jobs:
           with:
            context: .
            push: true
-           tags: ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+           tags: ${{ secrets.DOCKER_USERNAME }}/docker_with_nginx-app:${{ github.sha }}
         - name: logout from DockerHub
           run: docker logout
                           
         - name: connect to ec2 instance
           uses: appleboy/ssh-action@v0.1.5
+          env:
+            IMAGE_TAG: ${{ github.sha }}
           with:
            host: ${{ secrets.EC2_HOST }}
            username: ${{ secrets.EC2_USERNAME }}
            key: ${{ secrets.EC2_SSH_KEY }}
+           envs: IMAGE_TAG
            script: |
                                   
                                   cd node_with_ngnix
