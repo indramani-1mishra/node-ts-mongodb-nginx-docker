@@ -28,8 +28,9 @@ jobs:
         - name: logout from DockerHub
           run: docker logout
                           
+        
         - name: Connect to EC2 instance
-          uses: appleboy/ssh-action@v0.1.5
+          uses: appleboy/ssh-action@v1.2.0
           env:
             IMAGE_TAG: ${{ github.sha }}
           with:
@@ -52,6 +53,6 @@ jobs:
 
               docker compose pull app
 
-              docker compose up -d 
+              docker compose up -d --no-deps --wait --wait-timeout 60 app
 
               docker compose ps

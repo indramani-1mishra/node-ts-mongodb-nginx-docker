@@ -30,7 +30,7 @@ app.get('/',(req:Request,res:Response)=>{
 
 app.get('/health',async(req:Request,res:Response)=>{
     return res.status(200).json({
-        message:"server is running successfully",
+        message:"server is running successfully and test your api with postman or swagger   ",
         
     })
 });
